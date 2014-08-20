@@ -78,5 +78,5 @@ void setConsoleSize(unsigned short x, unsigned short y)
 
     HANDLE hConsole = GetStdHandle( STD_OUTPUT_HANDLE );
     bool bSuccess = SetConsoleWindowInfo(hConsole,TRUE, &windowSize);
-	//PERR( bSuccess, "SetConsoleWindowInfo" );
+	PERR( bSuccess, "SetConsoleWindowInfo" );
 }

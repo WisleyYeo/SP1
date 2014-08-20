@@ -23,7 +23,7 @@ void init()
     SetConsoleTitle(L"CATCHBALLS");
 	
     // Sets the console size, this is the biggest so far.
-    setConsoleSize(79, 50);
+    setConsoleSize(79, 28);
 
     // Get console width and height
     CONSOLE_SCREEN_BUFFER_INFO csbi; /* to get buffer info */     
@@ -87,8 +87,10 @@ void update(double dt)
 		system("PAUSE");
 	}
     // quits the game if player hits the escape key
-    if (keyPressed[K_ESCAPE])
-        g_quitGame = true;    
+	if (keyPressed[K_ESCAPE])
+	{
+		g_quitGame = true;
+	}
 }
 
 void render()
