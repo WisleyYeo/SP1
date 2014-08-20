@@ -15,10 +15,12 @@ bool keyPressed[K_COUNT];
 COORD charLocation;
 COORD consoleSize;
 
+
+
 void init()
 {
     // Set precision for floating point output
-    std::cout << std::fixed << std::setprecision(3);
+    std::cout << std::fixed << std::setprecision(2);
 
     SetConsoleTitle(L"CATCHBALLS");
 	
@@ -37,7 +39,7 @@ void init()
     charLocation.X = consoleSize.X / 2;
     charLocation.Y = consoleSize.Y;
 
-    elapsedTime = 0.0;
+	elapsedTime = 0.0;
 }
 
 void shutdown()
@@ -56,6 +58,9 @@ void getInput()
 	keyPressed[K_ENTER] = isKeyPressed(VK_RETURN);
 	keyPressed[K_SPACE] = isKeyPressed(VK_SPACE);
 	keyPressed[K_BACKSPACE] = isKeyPressed(VK_BACK);
+	keyPressed[K_HOME] = isKeyPressed(VK_HOME);
+	keyPressed[K_1] = isKeyPressed(VK_F1);
+	keyPressed[K_2] = isKeyPressed(VK_F2);
 }
 
 void update(double dt)
@@ -78,17 +83,44 @@ void update(double dt)
 		Beep(1440, 30);
 		charLocation.X++;
 	}
-	if (keyPressed[K_ENTER])
+	if (keyPressed[K_HOME])
 	{
 		run();
 	}
 	if (keyPressed[K_BACKSPACE])
 	{
-		system("PAUSE");
+		pause();
 	}
     // quits the game if player hits the escape key
 	if (keyPressed[K_ESCAPE])
 	{
+		cls();
+		ifstream ragequit;
+		string rage;
+		ragequit.open("ragequit.txt");
+		while (!ragequit.eof())
+		{
+			getline(ragequit, rage);
+			cout << rage << endl;
+		}
+		g_quitGame = true;
+	}
+	if (keyPressed[K_1])
+	{
+		return;
+	}
+
+	if (keyPressed[K_2])
+	{
+		cls();
+		ifstream ragequit;
+		string rage;
+		ragequit.open("ragequit.txt");
+		while (!ragequit.eof())
+		{
+			getline(ragequit, rage);
+			cout << rage << endl;
+		}
 		g_quitGame = true;
 	}
 }
@@ -152,14 +184,11 @@ void menu()
 
 void run()
 {
-	
-	
 	init();
 	mainLoop();
 	shutdown();
+	
 }
-
-
 
 void background()
 {
@@ -176,5 +205,39 @@ void background()
 		cout << data << endl;
 	}
 
+
 	background.close();
+
 }
+
+void pause()
+{
+	ifstream PauseMenu;
+	string Data;
+	int x = 0;
+
+	cls();
+
+
+	PauseMenu.open("pausemenu.txt");
+	while (!PauseMenu.eof())
+	{
+		getline(PauseMenu, Data);
+		cout << Data << endl;
+	}
+	system("PAUSE");
+
+	getInput();
+
+	
+	
+
+	PauseMenu.close();
+
+	//getInput();
+	
+
+
+}
+
+

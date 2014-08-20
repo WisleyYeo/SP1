@@ -14,9 +14,12 @@ enum Keys
     K_DOWN,
     K_LEFT,
     K_RIGHT,
+	K_1,
+	K_2,
 	K_SPACE,
 	K_ENTER,
 	K_BACKSPACE,
+	K_HOME,
     K_ESCAPE,
     K_COUNT
 };
@@ -30,6 +33,7 @@ void run();
 void menu();
 void mainLoop();
 void background();
+void pause();
 
 
 
