@@ -97,7 +97,10 @@ void render()
 {
     // clear previous screen
     colour(0x0F);
+	
     cls();
+	
+	
 
     //render the game
 
@@ -156,23 +159,22 @@ void run()
 	shutdown();
 }
 
-void background ()
+
+
+void background()
 {
-	string lvl1 = "          _       _       _       _       _       _       _       _       _";
+	ifstream background;
+	string data;
 
-	string lvl2 = "      \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/";
+	background.open("background.txt");
 
-	string lvl3 = "       \\_/     \\_/     \\_/     \\_/     \\_/     \\_/     \\_/     \\_/     \\_/";
+	gotoXY(6, 0);
 
+	while (!background.eof())
+	{
+		getline(background, data);
+		cout << data << endl;
+	}
 
-	gotoXY (0,4);
-	cout << lvl1 << endl;
-
-	gotoXY (1,5);
-	cout << lvl2 << endl;
-
-	gotoXY (2,6);
-	cout << lvl3 << endl;
-
-
+	background.close();
 }

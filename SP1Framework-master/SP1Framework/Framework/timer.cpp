@@ -51,6 +51,6 @@ void StopWatch::waitUntil(long long time)
         if (timeElapsed > time)
             return;
         else if (time - timeElapsed > 1)
-            Sleep(1);
+            Sleep(10);
     }
 }
