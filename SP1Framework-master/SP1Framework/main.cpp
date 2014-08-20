@@ -18,10 +18,11 @@ const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 int main()
 {
-	
+	system("MODE 79,50");
 	menu();
 	while (!g_quitGame)
 	{
+		
 		getInput();
 		update(g_timer.getElapsedTime());
 	}

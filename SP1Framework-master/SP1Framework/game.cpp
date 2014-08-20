@@ -20,10 +20,10 @@ void init()
     // Set precision for floating point output
     std::cout << std::fixed << std::setprecision(3);
 
-    SetConsoleTitle(L"SP1 Framework");
-
+    SetConsoleTitle(L"CATCHBALLS");
+	
     // Sets the console size, this is the biggest so far.
-    setConsoleSize(79, 28);
+    setConsoleSize(79, 50);
 
     // Get console width and height
     CONSOLE_SCREEN_BUFFER_INFO csbi; /* to get buffer info */     
@@ -31,11 +31,11 @@ void init()
     /* get the number of character cells in the current buffer */ 
     GetConsoleScreenBufferInfo( GetStdHandle( STD_OUTPUT_HANDLE ), &csbi );
     consoleSize.X = csbi.srWindow.Right + 1;
-    consoleSize.Y = csbi.srWindow.Bottom + 29;
+    consoleSize.Y = csbi.srWindow.Bottom ;
 
     // set the character to be in the center of the screen.
     charLocation.X = consoleSize.X / 2;
-    charLocation.Y = consoleSize.Y / 2;
+    charLocation.Y = consoleSize.Y;
 
     elapsedTime = 0.0;
 }
@@ -66,21 +66,13 @@ void update(double dt)
 
 	// Updating the location of the character based on the key press
 
-	if (keyPressed[K_UP] && charLocation.Y > 0)
-	{
-		Beep(1440, 30);
-		charLocation.Y--;
-	}
+
 	if (keyPressed[K_LEFT] && charLocation.X > 0)
 	{
 		Beep(1440, 30);
 		charLocation.X--;
 	}
-	if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
-	{
-		Beep(1440, 30);
-		charLocation.Y++;
-	}
+	
 	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
 	{
 		Beep(1440, 30);
@@ -127,7 +119,7 @@ void render()
     // render character
     gotoXY(charLocation);
     colour(0x0C);
-    std::cout << (char)1;
+    std::cout << (char)3;
 
     
 }
@@ -155,6 +147,8 @@ void menu()
 
 void run()
 {
+	
+	
 	init();
 	mainLoop();
 	shutdown();
