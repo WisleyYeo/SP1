@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+using namespace std;
 
 double elapsedTime;
 double deltaTime;
@@ -130,6 +131,7 @@ void render()
 
     
 }
+
 void menu()
 {
 	std::string output;
@@ -150,9 +152,31 @@ void menu()
 	Menu.close();
 	
 }
+
 void run()
 {
 	init();
 	mainLoop();
 	shutdown();
+}
+
+void background ()
+{
+	string lvl1 = "          _       _       _       _       _       _       _       _       _";
+
+	string lvl2 = "      \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/ \\(^_^)/";
+
+	string lvl3 = "       \\_/     \\_/     \\_/     \\_/     \\_/     \\_/     \\_/     \\_/     \\_/";
+
+
+	gotoXY (0,4);
+	cout << lvl1 << endl;
+
+	gotoXY (1,5);
+	cout << lvl2 << endl;
+
+	gotoXY (2,6);
+	cout << lvl3 << endl;
+
+
 }

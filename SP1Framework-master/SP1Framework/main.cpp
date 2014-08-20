@@ -36,7 +36,8 @@ void mainLoop()
 	{        
         getInput();                         // get keyboard input
         update(g_timer.getElapsedTime());   // update the game
-        render();                           // render the graphics output to screen
+        render(); 
+		background();						// render the graphics output to screen
         g_timer.waitUntil(frameTime);       // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }
