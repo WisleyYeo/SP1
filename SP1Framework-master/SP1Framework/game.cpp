@@ -224,9 +224,11 @@ void render()
     // render character
     gotoXY(charLocation);
     colour(0x0C);
-    std::cout << (char)3;
-	
-    
+    cout << "  \\_/ ";
+	gotoXY(charLocation.X, charLocation.Y - 1);
+	cout << "I(*_*)I" << endl;
+	gotoXY(charLocation.X, charLocation.Y - 2);
+    cout << "   _" << endl;
 }
 
 void menu()
