@@ -4,6 +4,9 @@
 #include "Framework\timer.h"
 #include <iostream>
 #include <fstream>
+#include <string>
+
+using std::string;
 
 extern StopWatch g_timer;
 extern bool g_quitGame;

@@ -9,6 +9,8 @@
 #include <fstream>
 #include <string>
 
+using std::string;
+
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
 bool g_quitGame = false;      // Set to true if you want to quit the game
@@ -53,4 +55,6 @@ void mainLoop()
 		// Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
 }
+
+
 

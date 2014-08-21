@@ -8,7 +8,11 @@
 #include <fstream>
 #include <string>
 #include <vector>
-using namespace std;
+using std::cout;
+using std::endl;
+using std::string;
+using std::vector;
+using std::ifstream;
 
 double elapsedTime;
 double deltaTime;
@@ -125,9 +129,12 @@ void update(double dt)
 {
 	// get the delta time
 	
+	if (pausegame != true)
+	{
+
 		elapsedTime += dt;
 		deltaTime = dt;
-
+	}
 	
 
 	// Updating the location of the character based on the key press
@@ -276,7 +283,7 @@ void pause()
 {
 	ifstream PauseMenu;
 	string Data;
-	int x = 0;
+
 
 	cls();
 
@@ -290,16 +297,7 @@ void pause()
 
 	getInput();
 
-	
-	
-	
-
 	PauseMenu.close();
-
-	//getInput();
-	
-
-
 }
 
 void ballfall()
@@ -332,5 +330,6 @@ void ballfall()
 		balltimer += 0.8;
 	}
 }
+
 
 
