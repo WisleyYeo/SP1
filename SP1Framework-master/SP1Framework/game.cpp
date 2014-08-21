@@ -7,6 +7,7 @@
 #include <iomanip>
 #include <fstream>
 #include <string>
+#include <vector>
 using namespace std;
 
 double elapsedTime;
@@ -14,8 +15,14 @@ double deltaTime;
 bool keyPressed[K_COUNT];
 COORD charLocation;
 COORD consoleSize;
-
-
+int balltimer = 0;
+struct meat
+{
+	int x;
+	int ballpos;
+	bool inplay;
+};
+vector<meat> meatwave;
 
 void init()
 {
@@ -38,6 +45,54 @@ void init()
     // set the character to be in the center of the screen.
     charLocation.X = consoleSize.X / 2;
     charLocation.Y = consoleSize.Y;
+
+	meat meat1;
+	meat meat2;
+	meat meat3;
+	meat meat4;
+	meat meat5;
+	meat meat6;
+	meat meat7;
+	meat meat8;
+	meat meat9;
+	meat meata;
+	meat meatb;
+	meat meatc;
+	meat meatd;
+	meat meate;
+	meatwave.push_back(meat1);
+	meatwave.push_back(meat2);
+	meatwave.push_back(meat3);
+	meatwave.push_back(meat4);
+	meatwave.push_back(meat5);
+	meatwave.push_back(meat6);
+	meatwave.push_back(meat7);
+	meatwave.push_back(meat8);
+	meatwave.push_back(meat9);
+	meatwave.push_back(meata);
+	meatwave.push_back(meatb);
+	meatwave.push_back(meatc);
+	meatwave.push_back(meatd);
+	meatwave.push_back(meate);
+	for (size_t i = 0; i < 7; ++i)
+	{
+		meatwave[i].ballpos = 2;
+		if (i == 0)
+		{
+			meatwave[i].x = i + 25;
+		}
+		else
+		{
+			meatwave[i].x = meatwave[i - 1].x + 7;
+		}
+		meatwave[i].inplay = 0;
+	}
+	for (size_t i = 7; i < 14; ++i)
+	{
+		meatwave[i].ballpos = 2;
+		meatwave[i].x = i + 13;
+		meatwave[i].inplay = 0;
+	}
 
 	elapsedTime = 0.0;
 }
@@ -74,13 +129,11 @@ void update(double dt)
 
 	if (keyPressed[K_LEFT] && charLocation.X > 0)
 	{
-		Beep(1440, 30);
 		charLocation.X--;
 	}
 	
 	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
 	{
-		Beep(1440, 30);
 		charLocation.X++;
 	}
 	if (keyPressed[K_HOME])
@@ -129,7 +182,6 @@ void render()
 {
     // clear previous screen
     colour(0x0F);
-	
     cls();
 	
 	
@@ -238,6 +290,37 @@ void pause()
 	
 
 
+}
+
+void ballfall()
+{
+	if (elapsedTime > balltimer)
+	{
+		srand(time(NULL));
+		meatwave[rand() %7].inplay += 1;
+	}
+	for (size_t i = 0; i < 14; ++i)
+	{
+		if (meatwave[i].ballpos < consoleSize.Y && meatwave[i].inplay != 0)
+		{
+			if (elapsedTime > balltimer)
+			{
+				meatwave[i].ballpos += 1;
+			}
+			gotoXY(meatwave[i].x,meatwave[i].ballpos);
+			colour(0x1A);
+			cout << "O";
+		}
+		else if (meatwave[i].ballpos >= consoleSize.Y)
+		{
+			meatwave[i].inplay = 0;
+			meatwave[i].ballpos = 1;
+		}
+	}
+	if (elapsedTime > balltimer)
+	{
+		balltimer += 1;
+	}
 }
 
 

@@ -34,6 +34,7 @@ void menu();
 void mainLoop();
 void background();
 void pause();
+void ballfall();
 
 
 
