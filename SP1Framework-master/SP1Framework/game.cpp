@@ -17,7 +17,6 @@ COORD charLocation;
 COORD consoleSize;
 int balltimer = 0;
 bool pausegame = false;
-bool resumegame = false;
 
 
 struct meat
@@ -125,11 +124,11 @@ void getInput()
 void update(double dt)
 {
 	// get the delta time
-	if (pausegame != true)
-	{
+	
 		elapsedTime += dt;
 		deltaTime = dt;
-	}
+
+	
 
 	// Updating the location of the character based on the key press
 

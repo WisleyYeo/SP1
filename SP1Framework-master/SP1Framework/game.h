@@ -7,7 +7,7 @@
 
 extern StopWatch g_timer;
 extern bool g_quitGame;
-
+extern bool pausegame;
 enum Keys
 {
     K_UP,
@@ -35,6 +35,7 @@ void mainLoop();
 void background();
 void pause();
 void ballfall();
+
 
 
 
