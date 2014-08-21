@@ -30,13 +30,18 @@ void StopWatch::startTimer( )
 {
     QueryPerformanceCounter(&prevTime) ;
 }
+
+
  
 double StopWatch::getElapsedTime() 
 {
     LARGE_INTEGER time;
+
     QueryPerformanceCounter(&currTime) ;
     time.QuadPart = currTime.QuadPart - prevTime.QuadPart;
-    prevTime = currTime;
+	prevTime = currTime;
+
+	
     return LIToSecs( time) ;
 }
 
@@ -44,13 +49,18 @@ void StopWatch::waitUntil(long long time)
 {
     LARGE_INTEGER nowTime;
     LONGLONG timeElapsed;
+
+	
+
     while (true)
     {
         QueryPerformanceCounter(&nowTime);
         timeElapsed = ((nowTime.QuadPart - prevTime.QuadPart) * 1000 / frequency.QuadPart);
         if (timeElapsed > time)
             return;
+		
         else if (time - timeElapsed > 1)
             Sleep(10);
     }
 }
+

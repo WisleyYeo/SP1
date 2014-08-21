@@ -16,6 +16,10 @@ bool keyPressed[K_COUNT];
 COORD charLocation;
 COORD consoleSize;
 int balltimer = 0;
+bool pausegame = false;
+bool resumegame = false;
+
+
 struct meat
 {
 	int x;
@@ -121,8 +125,11 @@ void getInput()
 void update(double dt)
 {
 	// get the delta time
-	elapsedTime += dt;
-	deltaTime = dt;
+	if (pausegame != true)
+	{
+		elapsedTime += dt;
+		deltaTime = dt;
+	}
 
 	// Updating the location of the character based on the key press
 
@@ -143,6 +150,7 @@ void update(double dt)
 	if (keyPressed[K_BACKSPACE])
 	{
 		pause();
+		pausegame = true;
 	}
     // quits the game if player hits the escape key
 	if (keyPressed[K_ESCAPE])
@@ -160,6 +168,8 @@ void update(double dt)
 	}
 	if (keyPressed[K_1])
 	{
+		
+		pausegame = false;
 		return;
 	}
 
@@ -209,7 +219,7 @@ void render()
     gotoXY(charLocation);
     colour(0x0C);
     std::cout << (char)3;
-
+	
     
 }
 
@@ -238,6 +248,7 @@ void run()
 {
 	init();
 	mainLoop();
+	
 	shutdown();
 	
 }
@@ -270,7 +281,6 @@ void pause()
 
 	cls();
 
-
 	PauseMenu.open("pausemenu.txt");
 	while (!PauseMenu.eof())
 	{
@@ -281,6 +291,7 @@ void pause()
 
 	getInput();
 
+	
 	
 	
 
@@ -308,7 +319,7 @@ void ballfall()
 				meatwave[i].ballpos += 1;
 			}
 			gotoXY(meatwave[i].x,meatwave[i].ballpos);
-			colour(0x1A);
+			colour(0x0F);
 			cout << "O";
 		}
 		else if (meatwave[i].ballpos >= consoleSize.Y)
@@ -319,7 +330,7 @@ void ballfall()
 	}
 	if (elapsedTime > balltimer)
 	{
-		balltimer += 1;
+		balltimer += 0.8;
 	}
 }
 
