@@ -179,12 +179,18 @@ void update(double dt) //INGAME
 
 	if (keyPressed[K_LEFT] && charLocation.X > 0)
 	{
-		charLocation.X--;
+		
+		if (charLocation.X != 23)
+		{
+			charLocation.X--;
+		}
 	}
-
 	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
 	{
-		charLocation.X++;
+		if (charLocation.X != 65)
+		{
+			charLocation.X++;
+		}
 	}
 	if (keyPressed[K_ESCAPE])
 	{
@@ -289,11 +295,12 @@ void renderGame()
 	// render character
 	gotoXY(charLocation);
 	colour(0x0C);
-	cout << "  \\_/ ";
+	cout << "/\\_/\\ ";
 	gotoXY(charLocation.X, charLocation.Y - 1);
-	cout << "I(*_*)I" << endl;
+	cout << "(^-^)" << endl;
 	gotoXY(charLocation.X, charLocation.Y - 2);
-	cout << "   _" << endl;
+	cout << "  _" << endl;
+	
 }
 
 void updateGame()
@@ -412,7 +419,7 @@ void ballfall()
 			}
 			gotoXY(meatwave[i].x,meatwave[i].ballpos);
 			colour(0x0F);
-			cout << "O";
+			cout << "(O)";
 		}
 		else if (meatwave[i].ballpos >= consoleSize.Y)
 		{
@@ -425,6 +432,5 @@ void ballfall()
 		balltimer += 0.8;
 	}
 }
-
 
 
