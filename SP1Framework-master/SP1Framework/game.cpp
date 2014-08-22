@@ -262,6 +262,7 @@ void renderGame()
 	colour(0x0F);
 	cls();
 	background();
+	ballfall();
 
 
 
