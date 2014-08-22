@@ -10,7 +10,8 @@ using std::string;
 
 extern StopWatch g_timer;
 extern bool g_quitGame;
-extern bool pausegame;
+extern bool ingame;
+
 enum Keys
 {
     K_UP,
@@ -27,17 +28,31 @@ enum Keys
     K_COUNT
 };
 
+enum GameState
+{
+	MAINMENU = 1,
+	PREGAME,
+	INGAME,
+	PAUSE,
+	EXIT
+};
+
 void init();                // initialize your variables, allocate memory, etc
 void getInput();            // get input from player
 void update(double dt);     // update the game and the state of the game
 void render();              // renders the current state of the game to the console
 void shutdown();            // do clean up, free memory
-void run();
-void menu();
+
 void mainLoop();
 void background();
-void pause();
 void ballfall();
+
+void updateGame();
+void updatePause();
+void updateMainMenu();
+void updatePreGame();
+void updateExit();
+
 
 
 

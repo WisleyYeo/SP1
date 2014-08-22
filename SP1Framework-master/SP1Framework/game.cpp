@@ -2,6 +2,7 @@
 //
 //
 #include "game.h"
+#include "leaderboard.h"
 #include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
@@ -17,10 +18,13 @@ using std::ifstream;
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
+bool ingame = false;
+
 COORD charLocation;
 COORD consoleSize;
 int balltimer = 0;
-bool pausegame = false;
+
+
 
 
 struct meat
@@ -125,16 +129,12 @@ void getInput()
 	keyPressed[K_2] = isKeyPressed(VK_F2);
 }
 
-void update(double dt)
+void update(double dt) //INGAME
 {
-	// get the delta time
+	ingame = true;
 	
-	if (pausegame != true)
-	{
-
-		elapsedTime += dt;
-		deltaTime = dt;
-	}
+	elapsedTime += dt;
+	deltaTime = dt;
 	
 
 	// Updating the location of the character based on the key press
@@ -144,62 +144,146 @@ void update(double dt)
 	{
 		charLocation.X--;
 	}
-	
+
 	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
 	{
 		charLocation.X++;
 	}
-	if (keyPressed[K_HOME])
-	{
-		run();
-	}
+	
 	if (keyPressed[K_BACKSPACE])
 	{
-		pause();
-		pausegame = true;
+		PAUSE;
+		
 	}
-    // quits the game if player hits the escape key
+	// quits the game if player hits the escape key
 	if (keyPressed[K_ESCAPE])
 	{
-		cls();
-		ifstream ragequit;
-		string rage;
-		ragequit.open("ragequit.txt");
-		while (!ragequit.eof())
-		{
-			getline(ragequit, rage);
-			cout << rage << endl;
-		}
-		g_quitGame = true;
+		EXIT;
 	}
-	if (keyPressed[K_1])
+	
+}
+
+//void updatePreGame()
+//{
+	
+
+//}
+
+void updateMainMenu()
+{
+	std::string output;
+	std::ifstream Menu;
+	Menu.open("menu.txt");
+
+	SetConsoleTitle(L"MAIN MENU");
+
+
+
+	while (!Menu.eof())
 	{
-		
-		pausegame = false;
-		return;
+
+		getline(Menu, output);
+		std::cout << output << std::endl;
+
 	}
+
+	Menu.close();
+
+
+	if (keyPressed[K_HOME])
+	{
+		//PREGAME;
+		INGAME;
+	}
+	if (keyPressed[K_ESCAPE])
+	{
+		EXIT;
+	}
+	
+	
+	
+}
+
+void updatePause()
+{
+	ifstream PauseMenu;
+	string Data;
+
+
+	cls();
+
+	PauseMenu.open("pausemenu.txt");
+	while (!PauseMenu.eof())
+	{
+		getline(PauseMenu, Data);
+		cout << Data << endl;
+	}
+	
+
+	
+
+	PauseMenu.close();
 
 	if (keyPressed[K_2])
 	{
-		cls();
-		ifstream ragequit;
-		string rage;
-		ragequit.open("ragequit.txt");
-		while (!ragequit.eof())
-		{
-			getline(ragequit, rage);
-			cout << rage << endl;
-		}
-		g_quitGame = true;
+		EXIT;
 	}
+	if (keyPressed[K_1])
+	{
+		return;
+	}
+}
+
+void updateExit()
+{
+	cls();
+	ifstream ragequit;
+	string rage;
+	ragequit.open("ragequit.txt");
+	while (!ragequit.eof())
+	{
+		getline(ragequit, rage);
+		cout << rage << endl;
+	}
+	g_quitGame = true;
+}
+
+void updateGame()
+{
+	
+	
+	GameState State = MAINMENU;
+	
+	switch (State)
+	{
+	case MAINMENU: updateMainMenu();
+		break;
+		
+	//case PREGAME: updatePreGame();
+	//	break; 
+	
+	case INGAME: update(g_timer.getElapsedTime());
+		break;
+		
+	case PAUSE: updatePause();
+		break;
+		
+	case EXIT: updateExit();
+		break;
+		
+
+	}
+
 }
 
 void render()
 {
     // clear previous screen
     colour(0x0F);
-    cls();
 	
+    cls();
+	background();
+	//ballfall();
 	
 
     //render the game
@@ -231,36 +315,6 @@ void render()
     cout << "   _" << endl;
 }
 
-void menu()
-{
-	std::string output;
-	std::ifstream Menu;
-	Menu.open("menu.txt");
-
-	SetConsoleTitle(L"MAIN MENU");
-
-
-
-	while (!Menu.eof())
-	{
-
-		getline(Menu, output);
-		std::cout << output << std::endl;
-
-	}
-	Menu.close();
-	
-}
-
-void run()
-{
-	init();
-	mainLoop();
-	
-	shutdown();
-	
-}
-
 void background()
 {
 	ifstream background;
@@ -279,27 +333,6 @@ void background()
 
 	background.close();
 
-}
-
-void pause()
-{
-	ifstream PauseMenu;
-	string Data;
-
-
-	cls();
-
-	PauseMenu.open("pausemenu.txt");
-	while (!PauseMenu.eof())
-	{
-		getline(PauseMenu, Data);
-		cout << Data << endl;
-	}
-	system("PAUSE");
-
-	getInput();
-
-	PauseMenu.close();
 }
 
 void ballfall()

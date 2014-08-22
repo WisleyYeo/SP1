@@ -25,14 +25,21 @@ const unsigned int frameTime = 1000 / FPS; // time for each frame
 
 int main()
 {
+	updateGame();
 	
-	menu();
-	while (!g_quitGame)
+	if (ingame = true)
 	{
-		
-		getInput();
-		update(g_timer.getElapsedTime());
+		init();
+		mainLoop();
+		shutdown();
+
 	}
+	
+
+	
+
+	
+	return 0;
 }
 
 // This main loop calls functions to get input, update and render the game
@@ -43,14 +50,10 @@ void mainLoop()
     while (!g_quitGame)      // run this loop until user wants to quit 
 	{        
         getInput(); // get keyboard input
-		if (pausegame != true)
-		{
-			update(g_timer.getElapsedTime()); // update the game
-			render();
-			background();// render the graphics output to screen
-			ballfall();
-			g_timer.waitUntil(frameTime);
-		}
+		update(g_timer.getElapsedTime()); // update the game
+		render();// render the graphics output to screen
+		g_timer.waitUntil(frameTime);
+	
 		
 		// Frame rate limiter. Limits each frame to a specified time in ms.      
 	}    
