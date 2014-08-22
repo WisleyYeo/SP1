@@ -60,7 +60,7 @@ void init()
     consoleSize.Y = csbi.srWindow.Bottom ;
 
     // set the character to be in the center of the screen.
-    charLocation.X = consoleSize.X / 2;
+    charLocation.X = consoleSize.X / 2 + 4;
     charLocation.Y = consoleSize.Y;
 
 	
@@ -177,20 +177,18 @@ void update(double dt) //INGAME
 	
 	// Updating the location of the character based on the key press
 
-	if (keyPressed[K_LEFT] && charLocation.X > 0)
+	if (keyPressed[K_LEFT] && charLocation.X > consoleSize.X/2 - 17)
 	{
 		
-		if (charLocation.X != 23)
-		{
-			charLocation.X--;
-		}
+		
+			charLocation.X-=7;
+		
 	}
-	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
+	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 16)
 	{
-		if (charLocation.X != 65)
-		{
-			charLocation.X++;
-		}
+		
+			charLocation.X+=7;
+		
 	}
 	if (keyPressed[K_ESCAPE])
 	{
