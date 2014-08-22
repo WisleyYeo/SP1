@@ -15,6 +15,7 @@ using std::string;
 using std::vector;
 using std::ifstream;
 
+
 double elapsedTime;
 double deltaTime;
 bool keyPressed[K_COUNT];
@@ -23,7 +24,11 @@ bool ingame = false;
 COORD charLocation;
 COORD consoleSize;
 int balltimer = 0;
+int i = 0;
 
+
+string BackGround;
+GameState State = MAINMENU;
 
 
 
@@ -39,7 +44,8 @@ void init()
 {
     // Set precision for floating point output
     std::cout << std::fixed << std::setprecision(2);
-
+	
+	
     SetConsoleTitle(L"CATCHBALLS");
 	
     // Sets the console size, this is the biggest so far.
@@ -56,6 +62,8 @@ void init()
     // set the character to be in the center of the screen.
     charLocation.X = consoleSize.X / 2;
     charLocation.Y = consoleSize.Y;
+
+	
 
 	meat meat1;
 	meat meat2;
@@ -106,6 +114,7 @@ void init()
 	}
 
 	elapsedTime = 0.0;
+	
 }
 
 void shutdown()
@@ -129,16 +138,44 @@ void getInput()
 	keyPressed[K_2] = isKeyPressed(VK_F2);
 }
 
+
+
+
 void update(double dt) //INGAME
 {
-	ingame = true;
+	
+	
+	
 	
 	elapsedTime += dt;
 	deltaTime = dt;
+
 	
 
-	// Updating the location of the character based on the key press
+	switch (State)
+	{
+	
+	case MAINMENU:
+		updateMainMenu();
+		break;
 
+	case INGAME:
+		updateGame();
+
+		break;
+
+	case PAUSE:
+		updatePause();
+		break;
+
+	case EXIT:
+		updateExit();
+		break;
+
+	}
+	
+	
+	// Updating the location of the character based on the key press
 
 	if (keyPressed[K_LEFT] && charLocation.X > 0)
 	{
@@ -149,17 +186,11 @@ void update(double dt) //INGAME
 	{
 		charLocation.X++;
 	}
-	
-	if (keyPressed[K_BACKSPACE])
-	{
-		PAUSE;
-		
-	}
-	// quits the game if player hits the escape key
 	if (keyPressed[K_ESCAPE])
 	{
-		EXIT;
+		g_quitGame = true;
 	}
+	
 	
 }
 
@@ -169,42 +200,9 @@ void update(double dt) //INGAME
 
 //}
 
-void updateMainMenu()
-{
-	std::string output;
-	std::ifstream Menu;
-	Menu.open("menu.txt");
-
-	SetConsoleTitle(L"MAIN MENU");
 
 
-
-	while (!Menu.eof())
-	{
-
-		getline(Menu, output);
-		std::cout << output << std::endl;
-
-	}
-
-	Menu.close();
-
-
-	if (keyPressed[K_HOME])
-	{
-		//PREGAME;
-		INGAME;
-	}
-	if (keyPressed[K_ESCAPE])
-	{
-		EXIT;
-	}
-	
-	
-	
-}
-
-void updatePause()
+void renderPause()
 {
 	ifstream PauseMenu;
 	string Data;
@@ -224,17 +222,23 @@ void updatePause()
 
 	PauseMenu.close();
 
-	if (keyPressed[K_2])
+	
+}
+
+void updatePause()
+{
+	if (keyPressed[K_2]||keyPressed[K_ESCAPE])
 	{
-		EXIT;
+		State = EXIT;
 	}
 	if (keyPressed[K_1])
 	{
-		return;
+		State = INGAME;
 	}
+
 }
 
-void updateExit()
+void renderExit()
 {
 	cls();
 	ifstream ragequit;
@@ -248,92 +252,147 @@ void updateExit()
 	g_quitGame = true;
 }
 
-void updateGame()
+void updateExit()
 {
-	
-	
-	GameState State = MAINMENU;
-	
-	switch (State)
-	{
-	case MAINMENU: updateMainMenu();
-		break;
-		
-	//case PREGAME: updatePreGame();
-	//	break; 
-	
-	case INGAME: update(g_timer.getElapsedTime());
-		break;
-		
-	case PAUSE: updatePause();
-		break;
-		
-	case EXIT: updateExit();
-		break;
-		
-
-	}
-
+	return;
 }
 
-void render()
+void renderGame()
 {
-    // clear previous screen
-    colour(0x0F);
-	
-    cls();
+	colour(0x0F);
+	cls();
 	background();
-	//ballfall();
-	
 
-    //render the game
 
-    //render test screen code (not efficient at all)
-    const WORD colors[] =   {
-	                        0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-	                        0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	                        };
-	
-	
 
-    // render time taken to calculate this frame
-    gotoXY(70, 0);
-    colour(0x1A);
-    std::cout << 1.0 / deltaTime << "fps" << std::endl;
-  
-    gotoXY(0, 0);
-    colour(0x59);
-    std::cout << elapsedTime << "secs" << std::endl;
+	//render the game
 
-    // render character
-    gotoXY(charLocation);
-    colour(0x0C);
-    cout << "  \\_/ ";
+
+	//render test screen code (not efficient at all)
+	const WORD colors[] = {
+		0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
+		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
+	};
+
+
+
+	// render time taken to calculate this frame
+	gotoXY(70, 0);
+	colour(0x1A);
+	std::cout << 1.0 / deltaTime << "fps" << std::endl;
+
+	gotoXY(0, 0);
+	colour(0x59);
+	std::cout << elapsedTime << "secs" << std::endl;
+
+	// render character
+	gotoXY(charLocation);
+	colour(0x0C);
+	cout << "  \\_/ ";
 	gotoXY(charLocation.X, charLocation.Y - 1);
 	cout << "I(*_*)I" << endl;
 	gotoXY(charLocation.X, charLocation.Y - 2);
-    cout << "   _" << endl;
+	cout << "   _" << endl;
+}
+
+void updateGame()
+{
+	if (keyPressed[K_BACKSPACE])
+	{
+		State = PAUSE;
+	}
+	if (keyPressed[K_ESCAPE])
+	{
+		State = EXIT;
+	}
+}
+
+void renderMainMenu()
+{
+	//Menu Title
+	
+		std::string output;
+		std::ifstream Menu;
+		Menu.open("menu.txt");
+		SetConsoleTitle(L"MAIN MENU");
+		cls();
+		while (!Menu.eof())
+		{
+
+			getline(Menu, output);
+			std::cout << output << std::endl;
+
+		}
+		Menu.close();
+
+	
+	
+}
+
+void updateMainMenu()
+{
+	if (keyPressed[K_HOME])
+	{
+		State = INGAME;
+	}
+	if (keyPressed[K_ESCAPE])
+	{
+		State = EXIT;
+	}
+}
+
+
+void render()
+{
+	switch (State)
+	{
+	case MAINMENU:
+		renderMainMenu();
+		break;
+	case INGAME:
+		renderGame();
+		break;
+	case PAUSE:
+		renderPause();
+		break;
+	case EXIT:
+		renderExit();
+		break;
+
+	}
+	
+
+	
+   
 }
 
 void background()
 {
 	ifstream background;
-	string data;
+
 
 	background.open("background.txt");
 
-	gotoXY(6, 0);
-
 	while (!background.eof())
+
 	{
-		getline(background, data);
-		cout << data << endl;
+		getline(background, BackGround);
+		cout << BackGround << endl;
+		i++;
+
 	}
-
-
 	background.close();
 
+
+
+	
+	
+	//for (int j = 0; j < i;j++)
+	//cout << BackGround[j] << endl;
+	
+
 }
+
 
 void ballfall()
 {

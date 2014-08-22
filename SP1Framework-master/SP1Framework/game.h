@@ -30,11 +30,12 @@ enum Keys
 
 enum GameState
 {
-	MAINMENU = 1,
+	MAINMENU = 1, 
 	PREGAME,
 	INGAME,
 	PAUSE,
-	EXIT
+	EXIT,
+	MAX
 };
 
 void init();                // initialize your variables, allocate memory, etc
@@ -45,13 +46,21 @@ void shutdown();            // do clean up, free memory
 
 void mainLoop();
 void background();
+void drawbackground();
 void ballfall();
 
 void updateGame();
 void updatePause();
 void updateMainMenu();
-void updatePreGame();
 void updateExit();
+
+
+
+void renderGame();
+void renderPause();
+void renderMainMenu();
+void renderExit();
+
 
 
 
