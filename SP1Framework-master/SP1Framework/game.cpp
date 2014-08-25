@@ -295,7 +295,7 @@ void renderGame()
 	colour(0x0C);
 	cout << "/\\_/\\ ";
 	gotoXY(charLocation.X, charLocation.Y - 1);
-	cout << "(^-^)" << endl;
+	cout << " (_)" << endl;
 	gotoXY(charLocation.X, charLocation.Y - 2);
 	cout << "  _" << endl;
 	
@@ -430,5 +430,3 @@ void ballfall()
 		balltimer += 0.8;
 	}
 }
-
-
