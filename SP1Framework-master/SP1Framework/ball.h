@@ -9,7 +9,7 @@ void ballfall();
 void ballinit();
 
 
-struct meat
+struct ball
 {
 	int x;
 	int ballpos;

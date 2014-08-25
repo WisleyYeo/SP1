@@ -60,7 +60,7 @@ void updatePause();
 void updateMainMenu();
 void updateExit();
 
-
+void gen_ball();
 
 
 
