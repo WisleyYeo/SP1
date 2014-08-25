@@ -2,6 +2,8 @@
 
 #include "Framework\timer.h"
 #include "game.h"
+#include "UI.h"
+
 
 #include <Windows.h>
 #include <iostream>
