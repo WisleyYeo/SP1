@@ -98,10 +98,11 @@ void update(double dt) //INGAME
 	
 	
 	
-	
-	elapsedTime += dt;
-	deltaTime = dt;
-
+	if (State != PAUSE)
+	{
+		elapsedTime += dt;
+		deltaTime = dt;
+	}
 	
 
 	switch (State)
@@ -172,8 +173,11 @@ void updatePause()
 	}
 	if (keyPressed[K_1])
 	{
+		
 		State = INGAME;
+		
 	}
+	
 
 }
 
@@ -189,6 +193,7 @@ void updateGame()
 {
 	if (keyPressed[K_BACKSPACE])
 	{
+		
 		State = PAUSE;
 	}
 	if (keyPressed[K_ESCAPE])
