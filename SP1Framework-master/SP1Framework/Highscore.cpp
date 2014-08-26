@@ -31,7 +31,7 @@ void LoadHS(string File, Highscore *Player)
 	Highscore.close();
 }
 
-void PrintHS(string File, Highscore *Player)
+void PrintHS(Highscore *Player)
 {
 	int i = 0;
 	int j = 1;
@@ -45,6 +45,9 @@ void PrintHS(string File, Highscore *Player)
 		i++;
 		j++;
 	}
+
+	cout << endl <<  "[F1]Return To Main Menu" << endl;
+	cout << "[ESC]Exit Game" << endl;
 
 
 
@@ -69,5 +72,24 @@ void WriteHS(string File, Highscore *Player)
 		}
 	}
 	Highscore.close();
+}
+
+void SortHS(Highscore *Player)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		for (int j = i + 1; j < 10; j++)
+		{
+			if (Player[i].Score < Player[j].Score)
+			{
+				string TempName = Player[i].Name;
+				int TempScore = Player[i].Score;
+				Player[i].Name = Player[j].Name;
+				Player[i].Score = Player[j].Score;
+				Player[j].Name = TempName;
+				Player[j].Score = TempScore;
+			}
+		}
+	}
 }
 

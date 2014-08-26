@@ -59,6 +59,7 @@ void updateGame();
 void updatePause();
 void updateMainMenu();
 void updateExit();
+void updateHighscore();
 
 void gen_ball();
 

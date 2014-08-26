@@ -32,7 +32,7 @@ COORD consoleSize;
 
 
 
-GameState State = MAINMENU;
+GameState State = HIGHSCORE;
 
 
 
@@ -110,10 +110,12 @@ void update(double dt) //INGAME
 	case MAINMENU:
 		updateMainMenu();
 		break;
+	case HIGHSCORE:
+		updateHighscore();
+		break;
 
 	case INGAME:
 		updateGame();
-
 		break;
 
 	case PAUSE:
@@ -150,7 +152,17 @@ void update(double dt) //INGAME
 	
 }
 
-
+void updateHighscore()
+{
+	if (keyPressed[K_1])
+	{
+		State = MAINMENU;
+	}
+	if (keyPressed[K_ESCAPE])
+	{
+		State = EXIT;
+	}
+}
 
 void updatePause()
 {

@@ -137,7 +137,8 @@ void render()
 	case HIGHSCORE:
 		cls();
 		LoadHS("Highscore.txt", HS);
-		PrintHS("Highscore.txt", HS);
+		SortHS(HS);
+		PrintHS(HS);
 		break;
 
 	case INGAME:

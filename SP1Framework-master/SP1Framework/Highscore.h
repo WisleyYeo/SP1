@@ -16,8 +16,10 @@ struct Highscore
 
 
 void LoadHS(string File, Highscore *Player);
-void PrintHS(string File, Highscore *Player);
+void PrintHS(Highscore *Player);
 void WriteHS(string File, Highscore *Player);
+void SortHS(Highscore *Player);
+
 
 
 #endif
