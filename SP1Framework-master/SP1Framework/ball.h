@@ -5,9 +5,10 @@
 
 using std::vector;
 
-void ballfall();
+void ballfall(float x,float y);
 void ballinit();
-
+void ballpulse(float x);
+void endfall();
 
 struct ball
 {

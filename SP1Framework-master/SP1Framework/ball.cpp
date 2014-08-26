@@ -9,16 +9,22 @@ using std::vector;
 using std::cout;
 
 
-int balltimer = 0;
-
+float balltimer = 1;
+float pulsetimer = 1;
 extern double elapsedTime;
 extern COORD consoleSize;
 
 
 vector<ball> ballwave;
 
-
-
+void ballpulse(float x)
+{
+	if (elapsedTime > pulsetimer)
+	{
+		ballwave[rand() %ballwave.size()].inplay += 1;
+		pulsetimer += x;
+	}
+}
 
 
 void ballinit()
@@ -40,24 +46,21 @@ void gen_ball()
 		{
 			ballwave[i].x = ballwave[i-1].x + 7;
 		}
-		ballwave[i].ballpos = 2;
+		ballwave[i].ballpos = 1;
 		ballwave[i].inplay = 0;
 	}
 }
 
-void ballfall()
+void ballfall(float x,float y)
 {
-	if (elapsedTime > balltimer)
-	{
-		ballwave[rand() %ballwave.size()].inplay += 1;
-	}
+	ballpulse(x);
 	for (size_t i = 0; i < ballwave.size(); ++i)
 	{
 		if (ballwave[i].ballpos < consoleSize.Y && ballwave[i].inplay != 0)
 		{
 			if (elapsedTime > balltimer)
 			{
-				ballwave[i].ballpos += 1;
+				ballwave[i].ballpos += 2;
 			}
 			gotoXY(ballwave[i].x,ballwave[i].ballpos);
 			colour(0x0F);
@@ -71,6 +74,38 @@ void ballfall()
 	}
 	if (elapsedTime > balltimer)
 	{
-		balltimer += 0.1;
+		balltimer += y;
+	}
+}
+
+void endfall()
+{
+		if (elapsedTime > 1000)
+	{
+		ballfall(0.1,0.1);
+	}
+	else if (elapsedTime > 100)
+	{
+		ballfall(2,0.5);
+	}
+	else if (elapsedTime > 80)
+	{
+		ballfall(2,0.6);
+	}
+	else if(elapsedTime > 60)
+	{
+		ballfall(2,0.7);
+	}
+	else if (elapsedTime > 40)
+	{
+		ballfall(2,0.8);
+	}
+	else if (elapsedTime > 20)
+	{
+		ballfall(2,0.9);
+	}
+	else
+	{
+		ballfall(2,1);
 	}
 }
