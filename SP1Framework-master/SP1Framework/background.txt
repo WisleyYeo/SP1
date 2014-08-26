@@ -24,6 +24,6 @@ SCORE:		     |  | |    | |    | |    | |    | |    | |    | |
                      |
                      |
                      |
-                     |
-                     |
+Press backspace to   |
+pause the game       |
                      |

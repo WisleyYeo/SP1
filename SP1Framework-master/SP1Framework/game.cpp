@@ -32,7 +32,7 @@ COORD consoleSize;
 
 
 
-GameState State = HIGHSCORE;
+GameState State = MAINMENU;
 
 
 
@@ -201,10 +201,16 @@ void updateGame()
 
 void updateMainMenu()
 {
-	if (keyPressed[K_HOME])
+	if (keyPressed[K_ENTER])
 	{
 		State = INGAME;
 	}
+	
+	if (keyPressed[K_HOME])
+	{
+		State = HIGHSCORE;
+	}
+
 	if (keyPressed[K_ESCAPE])
 	{
 		State = EXIT;
