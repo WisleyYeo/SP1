@@ -76,7 +76,9 @@ void ballfall(float x,float y)
 	{
 		balltimer += y;
 	}
+	
 }
+
 
 void endfall()
 {

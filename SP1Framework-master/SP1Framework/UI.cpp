@@ -18,7 +18,8 @@ using std::ifstream;
 extern double elapsedTime;
 extern double deltaTime;
 extern COORD charLocation;
-
+COORD charLocation1;
+bool fHandup;
 
 
 string BackGround;
@@ -80,6 +81,17 @@ void renderGame()
 	gotoXY(charLocation.X, charLocation.Y - 2);
 	cout << "  _" << endl;
 	
+	
+	if  (fHandup =true)
+	{	
+		colour(0x0C);
+		gotoXY(charLocation);
+		cout << "\\\\ _ //" << endl;
+		
+	}
+ 
+
+
 }
 
 void renderMainMenu()

@@ -25,6 +25,8 @@ bool ingame = false;
 double elapsedTime;
 double deltaTime;
 COORD charLocation;
+extern COORD charLocation1;
+extern bool fHandup;
 
 
 COORD consoleSize;
@@ -61,7 +63,8 @@ void init()
     charLocation.X = consoleSize.X / 2 + 4;
     charLocation.Y = consoleSize.Y;
 
-	
+	charLocation1.X = consoleSize.X/2 ;
+	charLocation1.Y = consoleSize.Y = 25;
 
 	ballinit();
 
@@ -200,7 +203,14 @@ void updateGame()
 	{
 		State = EXIT;
 	}
-}
+
+	if (keyPressed[K_SPACE])
+	{
+		fHandup = true;
+	}
+
+
+}	
 
 
 
@@ -220,5 +230,12 @@ void updateMainMenu()
 	{
 		State = EXIT;
 	}
+	
+	
+
+
+	check_ball_hand_position();
+
 }
+
 

@@ -60,7 +60,7 @@ void updatePause();
 void updateMainMenu();
 void updateExit();
 void updateHighscore();
-
+void check_ball_hand_position();
 void gen_ball();
 
 
