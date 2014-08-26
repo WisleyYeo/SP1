@@ -4,7 +4,7 @@
 #include "game.h"
 #include "UI.h"
 #include "ball.h"
-#include "leaderboard.h"
+#include "Highscore.h"
 #include "Framework\console.h"
 #include <iostream>
 #include <iomanip>

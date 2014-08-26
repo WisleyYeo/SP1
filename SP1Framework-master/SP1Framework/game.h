@@ -33,7 +33,7 @@ enum Keys
 enum GameState
 {
 	MAINMENU = 1, 
-	PREGAME,
+	HIGHSCORE,
 	INGAME,
 	PAUSE,
 	EXIT,

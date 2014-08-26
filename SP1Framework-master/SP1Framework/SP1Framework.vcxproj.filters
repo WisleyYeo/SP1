@@ -33,13 +33,13 @@
     <ClCompile Include="game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="leaderboard.cpp">
-      <Filter>Source Files\Resource Files</Filter>
-    </ClCompile>
     <ClCompile Include="UI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ball.cpp">
+      <Filter>Source Files\Resource Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Highscore.cpp">
       <Filter>Source Files\Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,14 +53,14 @@
     <ClInclude Include="game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="leaderboard.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="UI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="ball.h">
       <Filter>Header Files\Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="Highscore.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

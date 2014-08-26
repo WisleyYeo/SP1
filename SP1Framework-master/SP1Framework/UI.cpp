@@ -1,6 +1,7 @@
 #include "UI.h"
 #include "ball.h"
 #include "game.h"
+#include "Highscore.h"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -22,6 +23,8 @@ extern COORD charLocation;
 
 string BackGround;
 extern GameState State;
+
+Highscore HS[10];
 
 
 
@@ -131,6 +134,12 @@ void render()
 	case MAINMENU:
 		renderMainMenu();
 		break;
+	case HIGHSCORE:
+		cls();
+		LoadHS("Highscore.txt", HS);
+		PrintHS("Highscore.txt", HS);
+		break;
+
 	case INGAME:
 		renderGame();
 		break;
