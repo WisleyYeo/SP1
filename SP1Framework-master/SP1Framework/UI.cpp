@@ -18,8 +18,8 @@ using std::ifstream;
 extern double elapsedTime;
 extern double deltaTime;
 extern COORD charLocation;
-COORD charLocation1;
-bool fHandup;
+extern COORD charLocation1;
+extern bool fHandup;
 
 
 string BackGround;
@@ -34,6 +34,9 @@ void renderExit()
 	cls();
 	ifstream ragequit;
 	string rage;
+
+	SetConsoleTitle(L"RAGEQUITTING");
+
 	ragequit.open("ragequit.txt");
 	while (!ragequit.eof())
 	{
@@ -42,6 +45,8 @@ void renderExit()
 	}
 	g_quitGame = true;
 }
+
+
 
 void renderGame()
 {
@@ -82,10 +87,11 @@ void renderGame()
 	cout << "  _" << endl;
 	
 	
-	if  (fHandup =true)
+	if  (fHandup = true)
 	{	
 		colour(0x0C);
-		gotoXY(charLocation);
+		
+		gotoXY(charLocation1);
 		cout << "\\\\ _ //" << endl;
 		
 	}
@@ -124,6 +130,7 @@ void renderPause()
 
 	cls();
 
+	SetConsoleTitle(L"PAUSED");
 	PauseMenu.open("pausemenu.txt");
 	while (!PauseMenu.eof())
 	{
@@ -174,6 +181,7 @@ void background()
 
 	background.open("background.txt");
 
+	SetConsoleTitle(L"CATCHBALLS");
 	while (!background.eof())
 
 	{

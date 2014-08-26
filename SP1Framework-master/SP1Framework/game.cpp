@@ -25,7 +25,7 @@ bool ingame = false;
 double elapsedTime;
 double deltaTime;
 COORD charLocation;
-extern COORD charLocation1;
+COORD charLocation1;
 extern bool fHandup;
 
 
@@ -35,6 +35,8 @@ COORD consoleSize;
 
 
 GameState State = MAINMENU;
+
+
 
 
 
@@ -63,8 +65,7 @@ void init()
     charLocation.X = consoleSize.X / 2 + 4;
     charLocation.Y = consoleSize.Y;
 
-	charLocation1.X = consoleSize.X/2 ;
-	charLocation1.Y = consoleSize.Y = 25;
+	
 
 	ballinit();
 
@@ -93,8 +94,15 @@ void getInput()
 	keyPressed[K_2] = isKeyPressed(VK_F2);
 }
 
-
-
+void updateHandsup()
+{
+	if (keyPressed[K_SPACE])
+	{
+		fHandup = true;
+		charLocation1.X = charLocation.X - 1;
+		charLocation1.Y = charLocation.Y - 2;
+	}
+}
 
 void update(double dt) //INGAME
 {
@@ -120,6 +128,7 @@ void update(double dt) //INGAME
 
 	case INGAME:
 		updateGame();
+		updateHandsup();
 		break;
 
 	case PAUSE:
@@ -135,19 +144,7 @@ void update(double dt) //INGAME
 	
 	// Updating the location of the character based on the key press
 
-	if (keyPressed[K_LEFT] && charLocation.X > consoleSize.X/2 - 17)
-	{
-		
-		
-			charLocation.X-=7;
-		
-	}
-	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 16)
-	{
-		
-			charLocation.X+=7;
-		
-	}
+	
 	if (keyPressed[K_ESCAPE])
 	{
 		g_quitGame = true;
@@ -194,6 +191,25 @@ void updateExit()
 
 void updateGame()
 {
+	fHandup = false;
+
+	if (keyPressed[K_LEFT] && charLocation.X > consoleSize.X / 2 - 17)
+	{
+
+
+		charLocation.X -= 7;
+		
+
+
+	}
+	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 16)
+	{
+
+		charLocation.X += 7;
+		
+
+	}
+
 	if (keyPressed[K_BACKSPACE])
 	{
 		
@@ -204,13 +220,11 @@ void updateGame()
 		State = EXIT;
 	}
 
-	if (keyPressed[K_SPACE])
-	{
-		fHandup = true;
-	}
+	
 
 
-}	
+
+}
 
 
 

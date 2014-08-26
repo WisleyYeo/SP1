@@ -13,9 +13,12 @@ using std::string;
 using std::vector;
 using std::ifstream;
 extern vector<ball> ballwave;
-extern bool fHandup;
+bool fHandup = false;
 extern COORD charLocation;
 extern COORD charLocation1;
+
+int score = 0;
+
 
 
 void check_ball_hand_position()
@@ -41,3 +44,4 @@ void check_ball_hand_position()
 		}
 	}
 }
+

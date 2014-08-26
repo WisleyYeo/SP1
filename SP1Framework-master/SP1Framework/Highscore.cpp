@@ -1,4 +1,5 @@
 #include "Highscore.h"
+#include "Framework\console.h"
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -35,6 +36,8 @@ void PrintHS(Highscore *Player)
 {
 	int i = 0;
 	int j = 1;
+
+	SetConsoleTitle(L"HIGHSCORES");
 
 	cout << "---HIGHSCORES---" << endl;
 
