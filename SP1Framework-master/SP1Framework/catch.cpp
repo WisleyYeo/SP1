@@ -2,6 +2,8 @@
 #include "highscore.h"
 #include "Framework\console.h"
 #include "ball.h"
+#include "catch.h"
+#include "UI.h"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -17,7 +19,7 @@ bool fHandup = false;
 extern COORD charLocation;
 extern COORD charLocation1;
 
-int score = 0;
+extern int score;
 
 
 
@@ -33,11 +35,15 @@ void check_ball_hand_position()
 			{		
 				ballwave[i].inplay = 0;
 				ballwave[i].ballpos = 0;	
-				if (fHandup)
+				if (fHandup = true)
 				{
+					score += 2;
 					// add score	
 				}
-				else {}	 //subtract lives
+				else
+				{
+					score -= 1;
+				}	 //subtract score
 			}	
 
 			

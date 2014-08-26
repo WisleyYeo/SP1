@@ -1,5 +1,5 @@
-#ifndef HIGHSCORE_H
-#define HIGHSCORE_H
+#ifndef _HIGHSCORE_H
+#define _HIGHSCORE_H
 
 #include <iostream>
 #include <string>

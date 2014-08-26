@@ -1,6 +1,7 @@
 #include "UI.h"
 #include "ball.h"
 #include "game.h"
+#include "catch.h"
 #include "Highscore.h"
 #include <iostream>
 #include <iomanip>
@@ -26,6 +27,8 @@ string BackGround;
 extern GameState State;
 
 Highscore HS[10];
+
+int score = 0;
 
 
 
@@ -87,14 +90,7 @@ void renderGame()
 	cout << "  _" << endl;
 	
 	
-	if  (fHandup = true)
-	{	
-		colour(0x0C);
-		
-		gotoXY(charLocation1);
-		cout << "\\\\ _ //" << endl;
-		
-	}
+	
  
 
 
@@ -181,6 +177,8 @@ void background()
 
 	background.open("background.txt");
 
+	
+
 	SetConsoleTitle(L"CATCHBALLS");
 	while (!background.eof())
 
@@ -190,6 +188,10 @@ void background()
 	
 
 	}
+	
+	gotoXY(0, 3);
+	cout << score << endl;
+
 	background.close();
 
 }
