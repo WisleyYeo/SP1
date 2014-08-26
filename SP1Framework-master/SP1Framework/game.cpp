@@ -98,7 +98,7 @@ void update(double dt) //INGAME
 	
 	
 	
-	if (State != PAUSE)
+	if (State == INGAME)
 	{
 		elapsedTime += dt;
 		deltaTime = dt;
