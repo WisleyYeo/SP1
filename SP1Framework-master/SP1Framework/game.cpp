@@ -26,11 +26,14 @@ bool ingame = false;
 double elapsedTime;
 double deltaTime;
 COORD charLocation;
+COORD charLocation1;
+COORD charLocationMid;
+COORD charLocationTop;
 extern bool fHandup;
 extern double catchtimer;
 
 
-COORD consoleSize;
+COORD ConsoleSize = { 80, 25 };
 
 
 
@@ -45,28 +48,17 @@ GameState State = MAINMENU;
 
 void init()
 {
-    // Set precision for floating point output
-    std::cout << std::fixed << std::setprecision(2);
+	initConsole(ConsoleSize,"CATCHBALLS");
+   
+	charLocation.X = ConsoleSize.X / 2 + 5;
+	charLocation.Y = ConsoleSize.Y - 1;
 	
-	
-    SetConsoleTitle(L"CATCHBALLS");
-	
-    // Sets the console size, this is the biggest so far.
-    setConsoleSize(79, 28);
+	charLocationMid.X = ConsoleSize.X / 2 + 5;
+	charLocationMid.Y = ConsoleSize.Y - 2;
 
-    // Get console width and height
-    CONSOLE_SCREEN_BUFFER_INFO csbi; /* to get buffer info */     
+	charLocationTop.X = ConsoleSize.X / 2 + 5;
+	charLocationTop.Y = ConsoleSize.Y - 3;
 
-    /* get the number of character cells in the current buffer */ 
-    GetConsoleScreenBufferInfo( GetStdHandle( STD_OUTPUT_HANDLE ), &csbi );
-    consoleSize.X = csbi.srWindow.Right + 1;
-    consoleSize.Y = csbi.srWindow.Bottom ;
-
-    // set the character to be in the center of the screen.
-    charLocation.X = consoleSize.X / 2 + 4;
-    charLocation.Y = consoleSize.Y;
-
-	
 
 	ballinit();
 
@@ -78,6 +70,8 @@ void shutdown()
 {
     // Reset to white text on black background
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+
+	shutDownConsole();
 }
 
 void getInput()
@@ -95,7 +89,18 @@ void getInput()
 	keyPressed[K_2] = isKeyPressed(VK_F2);
 }
 
-void update(double dt) //INGAME
+
+void updateHandsup()
+{
+	if (keyPressed[K_SPACE])
+	{
+		fHandup = true;
+		charLocation1.X = charLocation.X - 1;
+		charLocation1.Y = charLocation.Y - 2;
+	}
+}
+
+void update(double dt) 
 {
 	
 	
@@ -124,6 +129,9 @@ void update(double dt) //INGAME
 	case PAUSE:
 		updatePause();
 		break;
+	case DEAD:
+		updateDead();
+		break;
 
 	case EXIT:
 		updateExit();
@@ -143,7 +151,7 @@ void update(double dt) //INGAME
 	
 }
 
-void updateHighscore()
+void updateHighscore()//HIGHSCORE
 {
 	if (keyPressed[K_1])
 	{
@@ -155,7 +163,7 @@ void updateHighscore()
 	}
 }
 
-void updatePause()
+void updatePause()//PAUSE
 {
 	if (keyPressed[K_2]||keyPressed[K_ESCAPE])
 	{
@@ -172,29 +180,36 @@ void updatePause()
 }
 
 
-void updateExit()
+void updateExit()//EXIT
 {
 	return;
 }
 
 
 
-void updateGame()
+void updateGame()//INGAME
 {
 
-	if (keyPressed[K_LEFT] && charLocation.X > consoleSize.X / 2 - 17 && fHandup != true)
+
+	if (keyPressed[K_LEFT]&& charLocation.X > ConsoleSize.X / 2 - 10)
+
 	{
 
 
-		charLocation.X -= 7;
+		charLocation.X-=7;
+		charLocationMid.X-=7;
+		charLocationTop.X-=7;
 		
 
 
 	}
-	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 16 && fHandup != true)
+
+	if (keyPressed[K_RIGHT]&& charLocation.X < ConsoleSize.X - 16)
 	{
 
-		charLocation.X += 7;
+		charLocation.X+=7;
+		charLocationMid.X+=7;
+		charLocationTop.X+=7;
 		
 
 	}
@@ -212,7 +227,7 @@ void updateGame()
 
 
 
-void updateMainMenu()
+void updateMainMenu()//MAINMENU
 {
 	if (keyPressed[K_ENTER])
 	{
@@ -241,4 +256,10 @@ void update_hand()
 	hand_down();
 }
 
-
+void updateDead()
+{
+	if (keyPressed[K_ENTER])
+	{
+		State = MAINMENU;
+	}
+}

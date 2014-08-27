@@ -8,8 +8,13 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <sstream>
 
 #include "Framework\console.h"
+
+// Console size, width by height
+extern COORD ConsoleSize;
+
 
 using std::string;
 using std::cout;
@@ -19,10 +24,12 @@ using std::ifstream;
 extern double elapsedTime;
 extern double deltaTime;
 extern COORD charLocation;
+extern COORD charLocationMid;
+extern COORD charLocationTop;
 extern bool fHandup;
 
 
-string BackGround;
+
 extern GameState State;
 
 Highscore HS[10];
@@ -31,20 +38,29 @@ int score = 0;
 
 
 
+COORD c;
+
+
+
 void renderExit()
 {
-	cls();
+	
 	ifstream ragequit;
 	string rage;
 
-	SetConsoleTitle(L"RAGEQUITTING");
+	c.X = 0;
+	c.Y = 0;
 
+	SetConsoleTitle(L"RAGEQUITTING");
+	
 	ragequit.open("ragequit.txt");
 	while (!ragequit.eof())
 	{
 		getline(ragequit, rage);
-		cout << rage << endl;
+		writeToBuffer(c, rage);
+		c.Y++;
 	}
+	
 	g_quitGame = true;
 }
 
@@ -52,8 +68,8 @@ void renderExit()
 
 void renderGame()
 {
-	colour(0x0F);
-	cls();
+	clearBuffer(0x0F);
+	
 	background();
 	endfall();
 	update_hand();
@@ -70,60 +86,85 @@ void renderGame()
 		0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
 	};
 
+	
+	
 
 
-	// render time taken to calculate this frame
-	gotoXY(70, 0);
-	colour(0x1A);
-	std::cout << 1.0 / deltaTime << "fps" << std::endl;
+	// displays the framerate
+	std::ostringstream ss;
+	ss << std::fixed << std::setprecision(3);
+	ss << 1.0 / deltaTime << "fps";
+	c.X = ConsoleSize.X - 9;
+	c.Y = 0;
+	writeToBuffer(c, ss.str());
 
-	gotoXY(0, 0);
-	colour(0x59);
-	std::cout << elapsedTime << "secs" << std::endl;
+	// displays the elapsed time
+	ss.str("");
+	ss << elapsedTime << "secs";
+	c.X = 0;
+	c.Y = 0;
+	writeToBuffer(c, ss.str(), 0x59);
+
+	//display the score
+	ss.str("");
+	ss << "Score : " << score;
+	c.X = 0;
+	c.Y = 3;
+	writeToBuffer(c, ss.str(), 0x60);
+	
+	
+	
 
 	// render character
+
 	if (fHandup == true)
 	{
-		gotoXY(charLocation);
-		colour(0x0C);
-		cout << " \\_/ ";
-		gotoXY(charLocation.X, charLocation.Y - 1);
-		cout << "\\(_)/" << endl;
-		gotoXY(charLocation.X, charLocation.Y - 2);
-		cout << "  _" << endl;
+		writeToBuffer(charLocation, " \\_/ ", 0x0C);
+
+		writeToBuffer(charLocationMid, "\\(_)/", 0x0C);
+
+		writeToBuffer(charLocationTop, "  _", 0x0C);
+
 	}
+	
+	
 	else
 	{
-		gotoXY(charLocation);
-		colour(0x0C);
-		cout << "/\\_/\\ ";
-		gotoXY(charLocation.X, charLocation.Y - 1);
-		cout << " (_)" << endl;
-		gotoXY(charLocation.X, charLocation.Y - 2);
-		cout << "  _" << endl;
+		writeToBuffer(charLocation, "/\\_/\\", 0x0C);
+
+		writeToBuffer(charLocationMid, " (_)", 0x0C);
+
+		writeToBuffer(charLocationTop, "  _", 0x0C);
 	}
+
+
 	
 	
-	
+	//flushBufferToConsole();
+}
  
 
 
-}
+
 
 void renderMainMenu()
 {
 	//Menu Title
 	
-		std::string output;
-		std::ifstream Menu;
+	c.X = 0;
+	c.Y = 0;
+
+		string output;
+		ifstream Menu;
 		Menu.open("menu.txt");
 		SetConsoleTitle(L"MAIN MENU");
-		cls();
+		
 		while (!Menu.eof())
 		{
 
 			getline(Menu, output);
-			std::cout << output << std::endl;
+			writeToBuffer(c, output);
+			c.Y++;
 
 		}
 		Menu.close();
@@ -134,18 +175,23 @@ void renderMainMenu()
 
 void renderPause()
 {
+	//clearBuffer();
+
+	c.X = 0;
+	c.Y = 0;
 	ifstream PauseMenu;
 	string Data;
 
 
-	cls();
+	
 
 	SetConsoleTitle(L"PAUSED");
 	PauseMenu.open("pausemenu.txt");
 	while (!PauseMenu.eof())
 	{
 		getline(PauseMenu, Data);
-		cout << Data << endl;
+		writeToBuffer(c, Data);
+		c.Y++;
 	}
 	
 
@@ -156,15 +202,45 @@ void renderPause()
 	
 }
 
+void renderDead()
+{
+	ifstream deadscreen;
+	string data;
+
+	c.X = 0;
+	c.Y = 0;
+	SetConsoleTitle(L"YOU LOST");
+
+	deadscreen.open("dead.txt");
+
+	while (!deadscreen.eof())
+	{
+		getline(deadscreen, data);
+		writeToBuffer(c, data);
+		c.Y++;
+	}
+
+	deadscreen.close();
+	
+	string name;
+	//gotoXY(32, 22);
+	std::cin >> name;
+
+	
+}
+
 void render()
 {
+	// Clears the buffer with this colour attribute
+	clearBuffer(0x0F);
+
 	switch (State)
 	{
 	case MAINMENU:
 		renderMainMenu();
 		break;
 	case HIGHSCORE:
-		cls();
+		
 		LoadHS("Highscore.txt", HS);
 		SortHS(HS);
 		PrintHS(HS);
@@ -176,36 +252,46 @@ void render()
 	case PAUSE:
 		renderPause();
 		break;
+	case DEAD:
+		renderDead();
+		break;
 	case EXIT:
 		renderExit();
 		break;
 
 	}
+	// Writes the buffer to the console, hence you will see what you have written
+	flushBufferToConsole();
 
 }
 
 void background()
 {
 	ifstream background;
-
-
+	string BackGround;
+	SetConsoleTitle(L"CATCHBALLS");
 	background.open("background.txt");
 
-	
+	c.X = 0;
+	c.Y = 1;
 
-	SetConsoleTitle(L"CATCHBALLS");
+	
 	while (!background.eof())
 
 	{
 		getline(background, BackGround);
-		cout << BackGround << endl;
-	
+		writeToBuffer(c, BackGround);
+		c.Y++;
 
 	}
-	
-	gotoXY(0, 3);
-	cout << score << endl;
-
 	background.close();
 
+	c.X = 0;
+	c.Y = 5;
+	writeToBuffer(c, score);
+	
+	
+
+	
 }
+
