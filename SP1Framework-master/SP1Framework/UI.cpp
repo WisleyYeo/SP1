@@ -19,7 +19,6 @@ using std::ifstream;
 extern double elapsedTime;
 extern double deltaTime;
 extern COORD charLocation;
-extern COORD charLocation1;
 extern bool fHandup;
 
 
@@ -57,6 +56,8 @@ void renderGame()
 	cls();
 	background();
 	endfall();
+	update_hand();
+	check_ball_hand_position();
 
 
 
@@ -81,13 +82,26 @@ void renderGame()
 	std::cout << elapsedTime << "secs" << std::endl;
 
 	// render character
-	gotoXY(charLocation);
-	colour(0x0C);
-	cout << "/\\_/\\ ";
-	gotoXY(charLocation.X, charLocation.Y - 1);
-	cout << " (_)" << endl;
-	gotoXY(charLocation.X, charLocation.Y - 2);
-	cout << "  _" << endl;
+	if (fHandup == true)
+	{
+		gotoXY(charLocation);
+		colour(0x0C);
+		cout << " \\_/ ";
+		gotoXY(charLocation.X, charLocation.Y - 1);
+		cout << "\\(_)/" << endl;
+		gotoXY(charLocation.X, charLocation.Y - 2);
+		cout << "  _" << endl;
+	}
+	else
+	{
+		gotoXY(charLocation);
+		colour(0x0C);
+		cout << "/\\_/\\ ";
+		gotoXY(charLocation.X, charLocation.Y - 1);
+		cout << " (_)" << endl;
+		gotoXY(charLocation.X, charLocation.Y - 2);
+		cout << "  _" << endl;
+	}
 	
 	
 	

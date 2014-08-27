@@ -4,6 +4,7 @@
 #include "ball.h"
 #include "catch.h"
 #include "UI.h"
+#include "time.h"
 #include <iostream>
 #include <iomanip>
 #include <fstream>
@@ -17,27 +18,34 @@ using std::ifstream;
 extern vector<ball> ballwave;
 bool fHandup = false;
 extern COORD charLocation;
-extern COORD charLocation1;
-
+extern double elapsedTime;
 extern int score;
+double catchtimer;
 
 
+
+void hand_down()
+{
+	if (elapsedTime > catchtimer)
+	{
+		fHandup = false;
+	}
+}
 
 void check_ball_hand_position()
 {
-	for (int i=0; i < ballwave.size();i++)
+	for (size_t i = 0; i < ballwave.size(); ++i)
 	{
-		// check ball is active 
-		if (ballwave[i].inplay)
+		if (ballwave[i].inplay != 0)
 		{
 
-			if( ballwave[i].ballpos = charLocation1.Y && charLocation1.X  )
+			if (ballwave[i].ballpos == charLocation.Y - 1 && ballwave[i].x == charLocation.X + 1)
 			{		
 				ballwave[i].inplay = 0;
-				ballwave[i].ballpos = 0;	
-				if (fHandup = true)
+				ballwave[i].ballpos = 1;	
+				if (fHandup == true)
 				{
-					score += 2;
+					score += 3;
 					// add score	
 				}
 				else
@@ -46,7 +54,7 @@ void check_ball_hand_position()
 				}	 //subtract score
 			}	
 
-			
+
 		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "game.h"
 #include "UI.h"
 #include "ball.h"
+#include "catch.h"
 #include "Highscore.h"
 #include "Framework\console.h"
 #include <iostream>
@@ -25,8 +26,8 @@ bool ingame = false;
 double elapsedTime;
 double deltaTime;
 COORD charLocation;
-COORD charLocation1;
 extern bool fHandup;
+extern double catchtimer;
 
 
 COORD consoleSize;
@@ -94,16 +95,6 @@ void getInput()
 	keyPressed[K_2] = isKeyPressed(VK_F2);
 }
 
-void updateHandsup()
-{
-	if (keyPressed[K_SPACE])
-	{
-		fHandup = true;
-		charLocation1.X = charLocation.X - 1;
-		charLocation1.Y = charLocation.Y - 2;
-	}
-}
-
 void update(double dt) //INGAME
 {
 	
@@ -128,7 +119,6 @@ void update(double dt) //INGAME
 
 	case INGAME:
 		updateGame();
-		updateHandsup();
 		break;
 
 	case PAUSE:
@@ -191,9 +181,8 @@ void updateExit()
 
 void updateGame()
 {
-	fHandup = false;
 
-	if (keyPressed[K_LEFT] && charLocation.X > consoleSize.X / 2 - 17)
+	if (keyPressed[K_LEFT] && charLocation.X > consoleSize.X / 2 - 17 && fHandup != true)
 	{
 
 
@@ -202,7 +191,7 @@ void updateGame()
 
 
 	}
-	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 16)
+	if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 16 && fHandup != true)
 	{
 
 		charLocation.X += 7;
@@ -219,11 +208,6 @@ void updateGame()
 	{
 		State = EXIT;
 	}
-
-	
-
-
-
 }
 
 
@@ -244,12 +228,17 @@ void updateMainMenu()
 	{
 		State = EXIT;
 	}
-	
-	
 
+}
 
-	check_ball_hand_position();
-
+void update_hand()
+{
+	if (keyPressed[K_SPACE])
+	{
+		fHandup = true;
+		catchtimer = elapsedTime + 1;
+	}
+	hand_down();
 }
 
 
